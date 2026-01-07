@@ -4,11 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
-export function ContactForm() {
+interface ContactFormProps {
+  sourcePage?: string;
+}
+
+export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
   const { t } = useLanguage();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,11 +24,29 @@ export function ContactForm() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would send to a backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.from('leads').insert({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim() || null,
+        inquiry_type: formData.inquiryType || null,
+        message: formData.message.trim(),
+        source_page: sourcePage,
+      });
+
+      if (error) throw error;
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting lead:', error);
+      toast.error('Failed to submit. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSubmitted) {
@@ -44,6 +69,7 @@ export function ContactForm() {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="bg-background/50 border-border focus:border-primary"
+            disabled={isLoading}
           />
         </div>
         <div className="space-y-2">
@@ -54,6 +80,7 @@ export function ContactForm() {
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="bg-background/50 border-border focus:border-primary"
+            disabled={isLoading}
           />
         </div>
       </div>
@@ -64,6 +91,7 @@ export function ContactForm() {
             value={formData.company}
             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
             className="bg-background/50 border-border focus:border-primary"
+            disabled={isLoading}
           />
         </div>
         <div className="space-y-2">
@@ -71,6 +99,7 @@ export function ContactForm() {
           <Select
             value={formData.inquiryType}
             onValueChange={(value) => setFormData({ ...formData, inquiryType: value })}
+            disabled={isLoading}
           >
             <SelectTrigger className="bg-background/50 border-border focus:border-primary">
               <SelectValue placeholder="Select type" />
@@ -92,10 +121,18 @@ export function ContactForm() {
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
           className="bg-background/50 border-border focus:border-primary resize-none"
+          disabled={isLoading}
         />
       </div>
-      <Button type="submit" variant="luxury" size="lg" className="w-full">
-        {t('contact.form.submit')}
+      <Button type="submit" variant="luxury" size="lg" className="w-full" disabled={isLoading}>
+        {isLoading ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Submitting...
+          </>
+        ) : (
+          t('contact.form.submit')
+        )}
       </Button>
     </form>
   );
