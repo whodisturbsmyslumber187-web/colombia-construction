@@ -63,8 +63,9 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
     <form onSubmit={handleSubmit} className="p-8 rounded-lg luxury-border bg-charcoal-deep space-y-6">
       <div className="grid sm:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground/80">{t('contact.form.name')}</label>
+          <label htmlFor="contact-name" className="text-sm font-medium text-foreground/80">{t('contact.form.name')}</label>
           <Input
+            id="contact-name"
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -73,8 +74,9 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground/80">{t('contact.form.email')}</label>
+          <label htmlFor="contact-email" className="text-sm font-medium text-foreground/80">{t('contact.form.email')}</label>
           <Input
+            id="contact-email"
             type="email"
             required
             value={formData.email}
@@ -86,8 +88,9 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
       </div>
       <div className="grid sm:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground/80">{t('contact.form.company')}</label>
+          <label htmlFor="contact-company" className="text-sm font-medium text-foreground/80">{t('contact.form.company')}</label>
           <Input
+            id="contact-company"
             value={formData.company}
             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
             className="bg-background/50 border-border focus:border-primary"
@@ -95,13 +98,13 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground/80">{t('contact.form.type')}</label>
+          <label htmlFor="contact-inquiry-type" className="text-sm font-medium text-foreground/80">{t('contact.form.type')}</label>
           <Select
             value={formData.inquiryType}
             onValueChange={(value) => setFormData({ ...formData, inquiryType: value })}
             disabled={isLoading}
           >
-            <SelectTrigger className="bg-background/50 border-border focus:border-primary" aria-label="Select inquiry type">
+            <SelectTrigger id="contact-inquiry-type" className="bg-background/50 border-border focus:border-primary" aria-label="Select inquiry type">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
@@ -114,8 +117,9 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
         </div>
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground/80">{t('contact.form.message')}</label>
+        <label htmlFor="contact-message" className="text-sm font-medium text-foreground/80">{t('contact.form.message')}</label>
         <Textarea
+          id="contact-message"
           required
           rows={5}
           value={formData.message}
