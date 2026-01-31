@@ -101,7 +101,7 @@ export function ContactForm({ sourcePage = 'contact' }: ContactFormProps) {
             onValueChange={(value) => setFormData({ ...formData, inquiryType: value })}
             disabled={isLoading}
           >
-            <SelectTrigger className="bg-background/50 border-border focus:border-primary">
+            <SelectTrigger className="bg-background/50 border-border focus:border-primary" aria-label="Select inquiry type">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
