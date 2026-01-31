@@ -26,9 +26,9 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
+            <p className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
               Navigation
-            </h4>
+            </p>
             <ul className="space-y-3">
               {[
                 { href: '/about', label: t('nav.about') },
@@ -50,9 +50,9 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
+            <p className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
               {t('nav.services')}
-            </h4>
+            </p>
             <ul className="space-y-3">
               <li className="text-sm text-muted-foreground">{t('services.resort.title')}</li>
               <li className="text-sm text-muted-foreground">{t('services.commercial.title')}</li>
@@ -63,9 +63,9 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
+            <p className="text-sm font-semibold tracking-wider uppercase text-foreground mb-4">
               {t('nav.contact')}
-            </h4>
+            </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-1 shrink-0" />
